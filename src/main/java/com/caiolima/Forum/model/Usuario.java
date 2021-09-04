@@ -1,12 +1,19 @@
 package com.caiolima.Forum.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class Usuario {
+@Getter
+@Setter
+public class Usuario implements UserDetails { // avisar para o spring que essa classe representa um usuario
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +21,9 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Perfil> perfis = new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -40,36 +50,38 @@ public class Usuario {
 		return true;
 	}
 
-	public Long getId() {
-		return id;
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.perfis;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	@Override
+	public String getPassword() {
+		return this.senha;
 	}
 
-	public String getNome() {
-		return nome;
+	@Override
+	public String getUsername() {
+		return this.email;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
 	}
 
-	public String getEmail() {
-		return email;
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 
-	public String getSenha() {
-		return senha;
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 }
