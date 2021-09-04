@@ -1,8 +1,7 @@
 package com.caiolima.Forum.config.seguranca;
 
 import com.caiolima.Forum.model.Usuario;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -32,5 +31,30 @@ public class TokenServ {
                 .setExpiration(expiracao) // quando expira
                 .signWith(SignatureAlgorithm.HS256, secret) //qual a criptografia usada no token
                 .compact(); //compactar e colocar numa string
+    }
+
+    public boolean isValido(String token) {
+        try {
+            Jwts.parser()
+                    .setSigningKey(this.secret)
+                    .parseClaimsJws(token);
+
+            return true;
+
+        } catch (ExpiredJwtException |
+                UnsupportedJwtException |
+                MalformedJwtException |
+                SignatureException |
+                IllegalArgumentException ex) {
+
+            return false;
+        }
+    }
+
+    public Long recuperarIdUsuario(String token) {
+        Claims claims = Jwts.parser().setSigningKey(this.secret)
+                .parseClaimsJws(token).getBody();
+
+        return Long.parseLong(claims.getSubject());
     }
 }

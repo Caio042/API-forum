@@ -3,6 +3,7 @@ package com.caiolima.Forum.controller;
 import com.caiolima.Forum.config.seguranca.TokenServ;
 import com.caiolima.Forum.controller.dto.LoginForm;
 import com.caiolima.Forum.controller.dto.TokenDTO;
+import com.caiolima.Forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
