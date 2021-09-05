@@ -51,8 +51,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/auth")
                 .permitAll()
-                .antMatchers("/actuator/**")
-                .permitAll()
+                .antMatchers("/swagger-ui/*").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement()
@@ -63,6 +62,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     // Acesso a recursos estáticos
     @Override
     public void configure(WebSecurity web) throws Exception {
-
+        web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**",
+                "/configurations/**", "/swagger-resources/**");
     }
 }
