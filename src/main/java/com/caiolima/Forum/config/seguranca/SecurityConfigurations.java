@@ -52,6 +52,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth")
                 .permitAll()
                 .antMatchers("/swagger-ui/*").permitAll()
+                .antMatchers(HttpMethod.DELETE).hasRole("MODERADOR")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement()
