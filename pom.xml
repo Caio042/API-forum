@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.caiolima</groupId>
 	<artifactId>Forum</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.5.0</version>
 	<name>Forum</name>
 	<description>Forum completo</description>
 	<properties>
