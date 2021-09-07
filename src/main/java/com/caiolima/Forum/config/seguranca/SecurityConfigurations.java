@@ -4,6 +4,7 @@ import com.caiolima.Forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity //habilita o modulo de segurança, bloqueando os endpoints
 @Configuration // anotando com configuration, o spring carrega as informações dessa classe no startup
+@Profile("prod")
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -57,7 +59,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFiltro(tokenServ, usuarioRepository), UsernamePasswordAuthenticationFilter.class); // rodar o do token antes do filtro do spring que ja roda pro padrao
+                .and().addFilterBefore(new AutenticacaoViaTokenFiltro(tokenServ, usuarioRepository),
+                UsernamePasswordAuthenticationFilter.class); // rodar o do token antes do filtro do spring que ja roda pro padrao
     }
 
     // Acesso a recursos estáticos
